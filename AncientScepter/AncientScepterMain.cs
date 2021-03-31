@@ -31,7 +31,7 @@ namespace AncientScepter
     [R2APISubmoduleDependency(nameof(ItemAPI))]
     public class AncientScepterMain : BaseUnityPlugin
     {
-        public const string ModVer = "1.0.0";
+        public const string ModVer = "1.0.1";
         public const string ModName = "Standalone Ancient Scepter";
         public const string ModGuid = "com.DestroyedClone.AncientScepter";
 
@@ -39,6 +39,7 @@ namespace AncientScepter
 
         public List<ItemBase> Items = new List<ItemBase>();
         public static Dictionary<ItemBase, bool> ItemStatusDictionary = new Dictionary<ItemBase, bool>();
+        protected readonly List<LanguageAPI.LanguageOverlay> languageOverlays = new List<LanguageAPI.LanguageOverlay>();
 
         public void Awake()
         {
@@ -52,6 +53,26 @@ namespace AncientScepter
                 {
                     item.Init(Config);
                 }
+            }
+
+            On.RoR2.Run.Start += On_RunStart;
+        }
+
+        public void Start()
+        {
+            InstallLanguage();
+        }
+
+        public void InstallLanguage()
+        {
+            foreach (var skill in AncientScepterItem.instance.skills)
+            {
+                if (skill.oldDescToken == null)
+                {
+                    AncientScepterMain._logger.LogError(skill.GetType().Name + " oldDescToken is null!");
+                    continue;
+                }
+                languageOverlays.Add(LanguageAPI.AddOverlay(skill.newDescToken, Language.GetString(skill.oldDescToken) + skill.overrideStr, Language.currentLanguageName));
             }
         }
 
@@ -71,6 +92,14 @@ namespace AncientScepter
                 }
             }
             return enabled;
+        }
+
+        private static void On_RunStart(On.RoR2.Run.orig_Start orig, Run self)
+        {
+            orig(self);
+            if (!NetworkServer.active) return;
+            var itemRngGenerator = new Xoroshiro128Plus(self.seed);
+            AncientScepterItem.instance.rng = new Xoroshiro128Plus(itemRngGenerator.nextUlong);
         }
     }
 }

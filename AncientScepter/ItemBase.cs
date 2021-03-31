@@ -38,6 +38,8 @@ namespace AncientScepter
 
         public abstract string ItemModelPath { get; }
         public abstract string ItemIconPath { get; }
+        public abstract string ItemDisplayPath { get; }
+
 
         public static ItemIndex Index;
 
@@ -47,6 +49,8 @@ namespace AncientScepter
 
         public abstract void Init(ConfigFile config);
 
+        public static GameObject displayPrefab;
+
         protected void CreateLang()
         {
             LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_NAME", ItemName);
@@ -55,7 +59,10 @@ namespace AncientScepter
             LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_LORE", ItemLore);
         }
 
-        public abstract ItemDisplayRuleDict CreateItemDisplayRules();
+        public virtual ItemDisplayRuleDict CreateDisplayRules()
+        {
+            return new ItemDisplayRuleDict(new ItemDisplayRule[0]);
+        }
 
         protected void CreateItem()
         {
@@ -77,7 +84,7 @@ namespace AncientScepter
                 canRemove = CanRemove,
                 tier = Tier
             };
-            var itemDisplayRules = CreateItemDisplayRules();
+            var itemDisplayRules = CreateDisplayRules();
             Index = ItemAPI.Add(new CustomItem(itemDef, itemDisplayRules));
         }
 

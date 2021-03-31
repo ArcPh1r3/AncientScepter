@@ -65,5 +65,24 @@ namespace AncientScepter
         {
             return Assets.CreateMaterial(materialName, emission, emissionColor, 0f);
         }
+
+        public static CharacterModel.RendererInfo[] SetupRendererInfos(GameObject obj)
+        {
+            Renderer[] meshes = obj.GetComponentsInChildren<Renderer>();
+            CharacterModel.RendererInfo[] rendererInfos = new CharacterModel.RendererInfo[meshes.Length];
+
+            for (int i = 0; i < meshes.Length; i++)
+            {
+                rendererInfos[i] = new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = meshes[i].material,
+                    renderer = meshes[i],
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false
+                };
+            }
+
+            return rendererInfos;
+        }
     }
 }

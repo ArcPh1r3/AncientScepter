@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3564924167
+CRC: 773600838
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 01e8497713e0787d46e3c749e46218c9
+    Hash: de5383ffab8230c6faa6820e4c9a873f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: b4eedefcbaea47b7eded363c047469dd
+    Hash: af0546f2cc5a51a7ebca6aa02b83b943
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -29,17 +29,43 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 95
   Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
 - Class: 137
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- Assets/AssetBundle/AncientScepter/mdlAncientScepterPickup.prefab
 - Assets/AssetBundle/AncientScepter/Textures/texAncientScepterEmission.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texAcridR1.png
 - Assets/AssetBundle/AncientScepter/Textures/texAncientScepter.png
+- Assets/AssetBundle/AncientScepter/VFX/matRound.mat
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texLoaderU1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texMultU1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texMercR1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texArtiR2.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texArtiR1.png
+- Assets/AssetBundle/AncientScepter/VFX/texAura.tif
 - Assets/AssetBundle/AncientScepter/Icons/texAncientScepterIcon.png
 - Assets/AssetBundle/AncientScepter/Animations/ScepterIdle.anim
 - Assets/AssetBundle/AncientScepter/Animations/animScepter.controller
+- Assets/AssetBundle/AncientScepter/VFX/matAura.mat
+- Assets/AssetBundle/AncientScepter/mdlAncientScepterPickup.prefab
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texEngiR1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texMercR2.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texHuntressR1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texRexR1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texCommandoR1.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texEngiR2.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texLoaderU2.png
+- Assets/AssetBundle/AncientScepter/VFX/texRound.png
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texCapU1.png
 - Assets/AssetBundle/AncientScepter/mdlAncientScepterDisplay.prefab
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texHuntressR2.png
 - Assets/AssetBundle/AncientScepter/Materials/matAncientScepter.mat
+- Assets/AssetBundle/AncientScepter/Icons/Skills/texCommandoR2.png
 Dependencies: []
