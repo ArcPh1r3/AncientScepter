@@ -37,7 +37,7 @@ namespace AncientScepter
             myDef.skillName = namestr;
             myDef.skillNameToken = nametoken;
             myDef.skillDescriptionToken = newDescToken;
-            myDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texHuntressR2.png");
+            myDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texHuntressR2");
 
             LoadoutAPI.AddSkillDef(myDef);
 
@@ -47,7 +47,7 @@ namespace AncientScepter
             myCtxDef.skillName = namestr;
             myCtxDef.skillNameToken = nametoken;
             myCtxDef.skillDescriptionToken = newDescToken;
-            myCtxDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texHuntressR2.png");
+            myCtxDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texHuntressR2");
 
             LoadoutAPI.AddSkillDef(myCtxDef);
         }

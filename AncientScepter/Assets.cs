@@ -1,9 +1,5 @@
-﻿using R2API;
-using RoR2;
-using System;
-using System.Collections.Generic;
+﻿using RoR2;
 using System.Reflection;
-using System.Text;
 using UnityEngine;
 
 namespace AncientScepter
@@ -22,8 +18,6 @@ namespace AncientScepter
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("AncientScepter.ancientscepter"))
                 {
                     mainAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                    var provider = new AssetBundleResourcesProvider("@AncientScepter", mainAssetBundle);
-                    ResourcesAPI.AddProvider(provider);
                 }
             }
         }

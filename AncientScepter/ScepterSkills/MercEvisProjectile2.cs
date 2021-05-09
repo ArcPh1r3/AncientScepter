@@ -32,7 +32,7 @@ namespace AncientScepter
             myDef.skillName = namestr;
             myDef.skillNameToken = nametoken;
             myDef.skillDescriptionToken = newDescToken;
-            myDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texMercR2.png");
+            myDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texMercR2");
             myDef.baseMaxStock *= 4;
             myDef.baseRechargeInterval /= 4f;
 
@@ -41,24 +41,25 @@ namespace AncientScepter
 
         internal override void LoadBehavior()
         {
-            On.EntityStates.Commando.CommandoWeapon.FireFMJ.OnEnter += On_FireFMJEnter;
+            On.EntityStates.GenericProjectileBaseState.OnEnter += On_FireFMJEnter;
         }
 
         internal override void UnloadBehavior()
         {
-            On.EntityStates.Commando.CommandoWeapon.FireFMJ.OnEnter -= On_FireFMJEnter;
+            On.EntityStates.GenericProjectileBaseState.OnEnter -= On_FireFMJEnter;
         }
 
-        private void On_FireFMJEnter(On.EntityStates.Commando.CommandoWeapon.FireFMJ.orig_OnEnter orig, EntityStates.Commando.CommandoWeapon.FireFMJ self)
+        private void On_FireFMJEnter(On.EntityStates.GenericProjectileBaseState.orig_OnEnter orig, EntityStates.GenericProjectileBaseState self)
         {
             orig(self);
-            if (!(self is EntityStates.Commando.CommandoWeapon.ThrowEvisProjectile) || AncientScepterItem.instance.GetCount(self.outer.commonComponents.characterBody) < 1) return;
+            if (!(self is EntityStates.Merc.Weapon.ThrowEvisProjectile) || AncientScepterItem.instance.GetCount(self.outer.commonComponents.characterBody) < 1) return;
             if (!self.outer.commonComponents.skillLocator?.special) return;
             var fireCount = self.outer.commonComponents.skillLocator.special.stock;
             self.outer.commonComponents.skillLocator.special.stock = 0;
             for (var i = 0; i < fireCount; i++)
             {
-                self.Fire();
+                self.FireProjectile();
+                self.DoFireEffects();
             }
         }
     }

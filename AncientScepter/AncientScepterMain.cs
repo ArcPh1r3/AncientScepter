@@ -1,38 +1,29 @@
 ﻿using System.Security;
 using System.Security.Permissions;
 using BepInEx;
-using MonoMod.Cil;
 using R2API;
 using R2API.Utils;
 using RoR2;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
-using BepInEx.Configuration;
-using Mono.Cecil.Cil;
-using System;
-using TMPro;
 using UnityEngine.Networking;
-using Path = System.IO.Path;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using R2API.Networking;
 using System.Linq;
 
 [module: UnverifiableCode]
-#pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
-#pragma warning restore CS0618 // Type or member is obsolete
+
 namespace AncientScepter
 {
 
     [BepInPlugin(ModGuid, ModName, ModVer)]
     [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [R2APISubmoduleDependency(nameof(ItemAPI))]
+    [R2APISubmoduleDependency(nameof(LoadoutAPI))]
+    [R2APISubmoduleDependency(nameof(ProjectileAPI))]
     public class AncientScepterMain : BaseUnityPlugin
     {
-        public const string ModVer = "1.0.1";
-        public const string ModName = "Standalone Ancient Scepter";
+        public const string ModVer = "1.0.3";
+        public const string ModName = "StandaloneAncientScepter";
         public const string ModGuid = "com.DestroyedClone.AncientScepter";
 
         internal static BepInEx.Logging.ManualLogSource _logger;
@@ -69,7 +60,6 @@ namespace AncientScepter
             {
                 if (skill.oldDescToken == null)
                 {
-                    AncientScepterMain._logger.LogError(skill.GetType().Name + " oldDescToken is null!");
                     continue;
                 }
                 languageOverlays.Add(LanguageAPI.AddOverlay(skill.newDescToken, Language.GetString(skill.oldDescToken) + skill.overrideStr, Language.currentLanguageName));

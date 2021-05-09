@@ -38,7 +38,7 @@ namespace AncientScepter
             myDef.skillName = namestr;
             myDef.skillNameToken = nametoken;
             myDef.skillDescriptionToken = newDescToken;
-            myDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texLoaderU2.png");
+            myDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texLoaderU2");
 
             LoadoutAPI.AddSkillDef(myDef);
 
@@ -48,7 +48,7 @@ namespace AncientScepter
             proxb.maxAngleFilter = 180f;
             projReplacer.transform.Find("Effect").localScale *= 3f;
 
-            ProjectileCatalog.getAdditionalEntries += (list) => list.Add(projReplacer);
+            ProjectileAPI.Add(projReplacer);
         }
 
         internal override void LoadBehavior()

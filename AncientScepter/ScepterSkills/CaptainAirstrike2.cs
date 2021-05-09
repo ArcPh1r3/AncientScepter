@@ -39,7 +39,7 @@ namespace AncientScepter
             myDef.skillName = namestr;
             myDef.skillNameToken = nametoken;
             myDef.skillDescriptionToken = newDescToken;
-            myDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texCapU1.png");
+            myDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texCapU1");
 
             LoadoutAPI.AddSkillDef(myDef);
 
@@ -47,10 +47,9 @@ namespace AncientScepter
             myCallDef = CloneSkillDef(oldCallDef);
             myCallDef.baseMaxStock = 21;
             myCallDef.mustKeyPress = false;
-            myCallDef.isBullets = true;
-            myCallDef.shootDelay = 0.07f;
+            myCallDef.resetCooldownTimerOnUse = true;
             myCallDef.baseRechargeInterval = 0.07f;
-            myCallDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texCapU1.png");
+            myCallDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texCapU2");
 
             LoadoutAPI.AddSkillDef(myCallDef);
         }

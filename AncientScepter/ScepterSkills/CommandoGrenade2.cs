@@ -35,7 +35,7 @@ namespace AncientScepter
             myDef.skillName = namestr;
             myDef.skillNameToken = nametoken;
             myDef.skillDescriptionToken = newDescToken;
-            myDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texCommandoR2.png");
+            myDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texCommandoR2");
 
             LoadoutAPI.AddSkillDef(myDef);
 
@@ -44,20 +44,20 @@ namespace AncientScepter
             pie.blastDamageCoefficient *= 0.5f;
             pie.bonusBlastForce *= 0.5f;
 
-            ProjectileCatalog.getAdditionalEntries += (list) => list.Add(projReplacer);
+            ProjectileAPI.Add(projReplacer);
         }
 
         internal override void LoadBehavior()
         {
-            On.EntityStates.Commando.CommandoWeapon.FireFMJ.Fire += On_FireFMJFire;
+            On.EntityStates.GenericProjectileBaseState.FireProjectile += On_FireFMJFire;
         }
 
         internal override void UnloadBehavior()
         {
-            On.EntityStates.Commando.CommandoWeapon.FireFMJ.Fire -= On_FireFMJFire;
+            On.EntityStates.GenericProjectileBaseState.FireProjectile -= On_FireFMJFire;
         }
 
-        private void On_FireFMJFire(On.EntityStates.Commando.CommandoWeapon.FireFMJ.orig_Fire orig, FireFMJ self)
+        private void On_FireFMJFire(On.EntityStates.GenericProjectileBaseState.orig_FireProjectile orig, EntityStates.GenericProjectileBaseState self)
         {
             var cc = self.outer.commonComponents;
             bool isBoosted = self is ThrowGrenade

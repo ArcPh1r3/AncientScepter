@@ -39,7 +39,7 @@ namespace AncientScepter
         public static SkillFamily FindSkillFamilyFromBody(string bodyName, int slotIndex)
         {
             var targetBodyIndex = BodyCatalog.FindBodyIndex(bodyName);
-            if (targetBodyIndex == -1)
+            if (targetBodyIndex == BodyIndex.None)
             {
                 AncientScepterMain._logger.LogError($"FindSkillFamilyFromBody: Couldn't find body with name {bodyName}");
                 return null;
@@ -62,12 +62,12 @@ namespace AncientScepter
         public static SkillFamily FindSkillFamilyFromBody(string bodyName, SkillSlot slot)
         {
             var targetBodyIndex = BodyCatalog.FindBodyIndex(bodyName);
-            if (targetBodyIndex == -1)
+            if (targetBodyIndex == BodyIndex.None)
             {
                 AncientScepterMain._logger.LogError($"FindSkillFamilyFromBody: Couldn't find body with name {bodyName}");
                 return null;
             }
-            //var allSlots = BodyCatalog.GetBodyPrefabSkillSlots(targetBodyIndex);
+            var allSlots = BodyCatalog.GetBodyPrefabSkillSlots(targetBodyIndex);
             var skLoc = BodyCatalog.GetBodyPrefab(targetBodyIndex).GetComponentInChildren<SkillLocator>();
             if (!skLoc)
             {
@@ -253,12 +253,11 @@ namespace AncientScepter
             newDef.fullRestockOnAssign = oldDef.fullRestockOnAssign;
             newDef.dontAllowPastMaxStocks = oldDef.dontAllowPastMaxStocks;
 
-            newDef.isBullets = oldDef.isBullets;
-            newDef.shootDelay = oldDef.shootDelay;
+            newDef.resetCooldownTimerOnUse = oldDef.resetCooldownTimerOnUse;
 
             newDef.isCombatSkill = oldDef.isCombatSkill;
 
-            newDef.noSprint = oldDef.noSprint;
+            newDef.cancelSprintingOnActivation = oldDef.cancelSprintingOnActivation;
             newDef.canceledFromSprinting = oldDef.canceledFromSprinting;
             newDef.forceSprintDuringState = oldDef.forceSprintDuringState;
 

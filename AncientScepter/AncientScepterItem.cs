@@ -14,7 +14,6 @@ using static AncientScepter.MiscUtil;
 
 namespace AncientScepter
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
     public abstract class ScepterSkill
     {
         public abstract SkillDef myDef { get; protected set; }
@@ -76,9 +75,9 @@ namespace AncientScepter
             "And before you ask, yes, the handle is designed to be hard to hold, culls the weak.");
         public override ItemTier Tier => ItemTier.Tier3;
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist };
-        public override string ItemModelPath => "@AncientScepter:Assets/AssetBundle/AncientScepter/mdlAncientScepterPickup.prefab";
-        public override string ItemIconPath => "@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/texAncientScepterIcon.png";
-        public override string ItemDisplayPath => "@AncientScepter:Assets/AssetBundle/AncientScepter/mdlAncientScepterDisplay.prefab";
+        public override GameObject ItemModel => Assets.mainAssetBundle.LoadAsset<GameObject>("mdlAncientScepterPickup");
+        public override Sprite ItemIcon => Assets.mainAssetBundle.LoadAsset<Sprite>("texAncientScepterIcon");
+        public override GameObject ItemDisplay => Assets.mainAssetBundle.LoadAsset<GameObject>("mdlAncientScepterDisplay");
 
         public override bool AIBlacklisted => true;
 
@@ -92,7 +91,7 @@ namespace AncientScepter
             CreateItem();
             Hooks();
             Install();
-            InstallLanguage();
+            //InstallLanguage();
         }
 
         private void CreateConfig(ConfigFile config)
@@ -114,8 +113,8 @@ namespace AncientScepter
 
         public override ItemDisplayRuleDict CreateDisplayRules()
         {
-            SetupMaterials(Resources.Load<GameObject>(ItemModelPath));
-            displayPrefab = Resources.Load<GameObject>(ItemDisplayPath);
+            SetupMaterials(ItemModel);
+            displayPrefab = ItemDisplay;
             SetupMaterials(displayPrefab);
             var disp = displayPrefab.AddComponent<ItemDisplay>();
             disp.rendererInfos = Assets.SetupRendererInfos(displayPrefab);
@@ -266,7 +265,6 @@ localScale = new Vector3(0.2235F, 0.2235F, 0.2235F)
             return rules;
         }
 
-
         protected override void SetupMaterials(GameObject modelPrefab)
         {
             modelPrefab.GetComponentInChildren<SkinnedMeshRenderer>().material = Assets.CreateMaterial("matAncientScepter", 1, Color.white, 1);
@@ -360,10 +358,9 @@ localScale = new Vector3(0.2235F, 0.2235F, 0.2235F)
             {
                 if (skill.oldDescToken == null)
                 {
-                    AncientScepterMain._logger.LogError(skill.GetType().Name + " oldDescToken is null!");
                     continue;
                 }
-                languageOverlays.Add(LanguageAPI.AddOverlay(skill.newDescToken, Language.GetString(skill.oldDescToken) + skill.overrideStr, Language.currentLanguageName));
+                languageOverlays.Add(LanguageAPI.AddOverlay(skill.newDescToken, Language.GetString(skill.oldDescToken) + skill.overrideStr));
             }
         }
 
@@ -373,7 +370,7 @@ localScale = new Vector3(0.2235F, 0.2235F, 0.2235F)
             if (stridesInteractionMode != StridesInteractionMode.ScepterTakesPrecedence
                 || skillDef.skillIndex != CharacterBody.CommonAssets.lunarUtilityReplacementSkillDef.skillIndex
                 || !(source is CharacterBody body)
-                || body.inventory.GetItemCount(Index) < 1
+                || body.inventory.GetItemCount(ItemDef) < 1
                 || handlingOverride)
                 orig(self, source, skillDef, priority);
             else
@@ -412,12 +409,10 @@ localScale = new Vector3(0.2235F, 0.2235F, 0.2235F)
         {
             if (targetVariant < 0)
             {
-                AncientScepterMain._logger.LogError("Can't register a scepter skill to negative variant index");
                 return false;
             }
             if (scepterReplacers.Exists(x => x.bodyName == targetBodyName && (x.slotIndex != targetSlot || x.variantIndex == targetVariant)))
-            {
-                AncientScepterMain._logger.LogError("A scepter skill already exists for this character; can't add multiple for different slots nor for the same variant");
+            {            
                 return false;
             }
             scepterReplacers.Add(new ScepterReplacer { bodyName = targetBodyName, slotIndex = targetSlot, variantIndex = targetVariant, replDef = replacingDef });
@@ -447,18 +442,18 @@ localScale = new Vector3(0.2235F, 0.2235F, 0.2235F)
 
         private void Reroll(CharacterBody self, int count)
         {
-            if (count <= 0) return;
-            var list = Run.instance.availableTier3DropList.Except(new[] { PickupCatalog.FindPickupIndex(Index) }).ToList(); //todo optimize
+            if (count <= 0 || self.master?.GetComponent<Deployable>()) return;
+            var list = Run.instance.availableTier3DropList.Except(new[] { PickupCatalog.FindPickupIndex(ItemDef.name) }).ToList(); //todo optimize
             for (var i = 0; i < count; i++)
             {
-                self.inventory.RemoveItem(Index, 1);
+                self.inventory.RemoveItem(ItemDef, 1);
                 self.inventory.GiveItem(PickupCatalog.GetPickupDef(list[UnityEngine.Random.Range(0, list.Count)]).itemIndex);
             }
         }
 
         private bool HandleScepterSkill(CharacterBody self, bool forceOff = false)
         {
-            bool hasStrides = self.inventory.GetItemCount(ItemIndex.LunarUtilityReplacement) > 0;
+            bool hasStrides = self.inventory.GetItemCount(RoR2Content.Items.LunarUtilityReplacement) > 0;
             if (self.skillLocator && self.master?.loadout != null)
             {
                 var bodyName = BodyCatalog.GetBodyName(self.bodyIndex);

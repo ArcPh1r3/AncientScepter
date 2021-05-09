@@ -37,7 +37,7 @@ namespace AncientScepter
             myDef.skillName = namestr;
             myDef.skillNameToken = nametoken;
             myDef.skillDescriptionToken = newDescToken;
-            myDef.icon = Resources.Load<Sprite>("@AncientScepter:Assets/AssetBundle/AncientScepter/Icons/Skills/texArtiR1.png");
+            myDef.icon = Assets.mainAssetBundle.LoadAsset<Sprite>("texArtiR1");
 
             LoadoutAPI.AddSkillDef(myDef);
 
@@ -88,7 +88,7 @@ namespace AncientScepter
                 lightCpt.range = 5f;
             }
 
-            ProjectileCatalog.getAdditionalEntries += (list) => list.Add(projCloud);
+            ProjectileAPI.Add(projCloud);
         }
 
         internal override void LoadBehavior()
